@@ -13,9 +13,12 @@ export const fetchSections = async (q = '') => {
 export const fetchContent = async (opts: ContentParams = { page: '1' }) => {
   const params = {
     ...opts,
+    'page-size': 20,
     'from-date': fromDate(),
   };
-  const res = await Http.get<ContentResponse>(`/search`, { params });
+  const res = await Http.get<{ response: ContentResponse }>(`/search`, {
+    params,
+  });
 
-  return res.data;
+  return res.data.response;
 };

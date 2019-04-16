@@ -12,3 +12,28 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.listing {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 15px;
+}
+
+.listing-item {
+  border: 1px solid lightgrey;
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.listing-item__title {
+  font-weight: 600;
+}
+
+.listing-item__date {
+  color: lightgrey;
+  font-size: 12px;
+}
+
+.listing-item__section {
+  font-size: 14px;
+}
