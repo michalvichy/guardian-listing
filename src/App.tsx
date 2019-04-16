@@ -1,11 +1,12 @@
 import React from 'react';
+import { Container } from 'reactstrap';
 
 import { HomePage } from './components/HomePage';
 
 export const App = () => {
   return (
-    <div className="container">
-      <HomePage />>
-    </div>
+    <Container>
+      <HomePage />
+    </Container>
   );
 };

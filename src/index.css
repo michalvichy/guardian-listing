@@ -38,6 +38,12 @@ code {
   font-size: 14px;
 }
 
+.listing-item__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .pagination-wrapper {
   margin: 30px 0;
 }
@@ -48,4 +54,8 @@ code {
 
 .header {
   margin: 20px 0 30px;
+}
+
+.read-later {
+  cursor: pointer;
 }

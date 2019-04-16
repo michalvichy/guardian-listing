@@ -7,6 +7,7 @@ import { Listing } from './Listing';
 import { Pagination } from './Pagination';
 
 import { fetchContent } from '../config/service';
+import { readItem, saveItem } from '../helpers/localStorage';
 
 interface State {
   articles: Content[];
@@ -14,6 +15,9 @@ interface State {
 }
 
 export const HomePage = () => {
+  const [readLater, setReadLater] = useState<Content[]>(
+    readItem('readLater') || []
+  );
   const [pending, setPending] = useState<boolean>(true);
   const [query, setQuery] = useState<ContentParams>({ page: 1 });
   const [state, setState] = useState<State>({
@@ -23,8 +27,6 @@ export const HomePage = () => {
 
   useEffect(() => {
     fetchContent(query).then(response => {
-      console.log({ response });
-
       setState({
         articles: response.results,
         pages: response.pages,
@@ -32,6 +34,10 @@ export const HomePage = () => {
       setPending(false);
     });
   }, [query]);
+
+  useEffect(() => {
+    saveItem('readLater', readLater);
+  }, [readLater]);
 
   function handlePageChange(pageNo: number) {
     setQuery({ ...query, page: pageNo });
@@ -43,13 +49,30 @@ export const HomePage = () => {
     setPending(true);
   }
 
+  function handleReadLater(article: Content) {
+    const index = readLater.findIndex(item => item.id === article.id);
+
+    if (index === -1) {
+      return setReadLater([...readLater, article]);
+    }
+
+    return setReadLater([
+      ...readLater.slice(0, index),
+      ...readLater.slice(index + 1),
+    ]);
+  }
+
   return (
     <>
       <Header onSelect={selectSection} />
 
       {pending && <Spinner type="grow" color="success" />}
 
-      <Listing articles={state.articles} />
+      <Listing
+        articles={state.articles}
+        toggleReadLater={handleReadLater}
+        readLater={readLater}
+      />
 
       {!pending && state.articles.length === 0 && <p>No results</p>}
 
