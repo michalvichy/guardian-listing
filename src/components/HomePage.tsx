@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import Spinner from 'reactstrap/lib/Spinner';
+
 import { Content, ContentParams } from '../models/content.inteface';
-import { fetchContent } from '../config/service';
 import { Listing } from './Listing';
+import { Pagination } from './Pagination';
+
+import { fetchContent } from '../config/service';
 
 interface State {
   articles: Content[];
   pages: number;
-  pending: boolean;
 }
 
 export const HomePage = () => {
+  const [pending, setPending] = useState<boolean>(true);
   const [query, setQuery] = useState<ContentParams>({ page: '1' });
   const [state, setState] = useState<State>({
     articles: [],
     pages: 0,
-    pending: true,
   });
 
   useEffect(() => {
@@ -24,14 +27,26 @@ export const HomePage = () => {
       setState({
         articles: response.results,
         pages: response.pages,
-        pending: false,
       });
+      setPending(false);
     });
   }, [query]);
 
+  function handlePageChane(pageNo: string) {
+    setQuery({ page: pageNo });
+    setPending(true);
+  }
+
   return (
     <>
-      <Listing articles={state.articles} />
+      {pending && <Spinner type="grow" color="success" />}
+      {state.articles.length && !pending && (
+        <Listing articles={state.articles} />
+      )}
+
+      {!pending && state.articles.length === 0 && <p>No results</p>}
+
+      <Pagination pages={state.pages} onPageChange={handlePageChane} />
     </>
   );
 };

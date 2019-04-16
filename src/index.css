@@ -37,3 +37,11 @@ code {
 .listing-item__section {
   font-size: 14px;
 }
+
+.pagination-wrapper {
+  margin: 30px 0;
+}
+
+.pagination {
+  justify-content: center;
+}
