@@ -45,3 +45,7 @@ code {
 .pagination {
   justify-content: center;
 }
+
+.header {
+  margin: 20px 0 30px;
+}

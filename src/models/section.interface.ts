@@ -13,3 +13,7 @@ interface Edition {
   apiUrl: string;
   code: string;
 }
+
+export interface SectionsResponse {
+  results: Section[];
+}

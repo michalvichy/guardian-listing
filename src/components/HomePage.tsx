@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Spinner from 'reactstrap/lib/Spinner';
 
 import { Content, ContentParams } from '../models/content.inteface';
+import { Header } from './Header';
 import { Listing } from './Listing';
 import { Pagination } from './Pagination';
 
@@ -32,23 +33,30 @@ export const HomePage = () => {
     });
   }, [query]);
 
-  function handlePageChane(pageNo: number) {
-    setQuery({ page: pageNo });
+  function handlePageChange(pageNo: number) {
+    setQuery({ ...query, page: pageNo });
+    setPending(true);
+  }
+
+  function selectSection(section: string) {
+    setQuery({ section, page: 1 });
     setPending(true);
   }
 
   return (
     <>
+      <Header onSelect={selectSection} />
+
       {pending && <Spinner type="grow" color="success" />}
 
-      {state.articles.length && <Listing articles={state.articles} />}
+      <Listing articles={state.articles} />
 
       {!pending && state.articles.length === 0 && <p>No results</p>}
 
       <Pagination
         currentPage={+query.page}
         maxPages={state.pages}
-        onPageChange={handlePageChane}
+        onPageChange={handlePageChange}
       />
     </>
   );
