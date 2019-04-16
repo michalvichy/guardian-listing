@@ -33,6 +33,10 @@ export const SectionsDropdown = (props: Props) => {
             {section.webTitle}
           </DropdownItem>
         ))}
+
+        {props.sections.length === 0 && (
+          <DropdownItem>No sections with given name</DropdownItem>
+        )}
       </DropdownMenu>
     </Dropdown>
   );

@@ -5,7 +5,9 @@ import { SectionsResponse } from '../models/section.interface';
 import { fromDate } from '../helpers/fromDate';
 
 export const fetchSections = async (q = '') => {
-  const res = await Http.get<{ response: SectionsResponse }>(`/sections`);
+  const res = await Http.get<{ response: SectionsResponse }>(`/sections`, {
+    params: { q: q || undefined },
+  });
 
   return res.data.response;
 };

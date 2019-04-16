@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Row, Col, Input } from 'reactstrap';
 
 import { Section } from '../models/section.interface';
-import { fetchSections } from '../config/service';
 import { SectionsDropdown } from './SectionsDropdown';
+
+import { fetchSections } from '../config/service';
+import { useDebounce } from '../helpers/useDebounce';
 
 interface Props {
   onSelect(s: string): void;
@@ -11,28 +13,32 @@ interface Props {
 
 export const Header = (props: Props) => {
   const [sections, setSections] = useState<Section[]>([]);
+  const [name, setName] = useState('');
+  const delayedName = useDebounce(name, 500);
 
   useEffect(() => {
-    fetchSections().then(response => {
-      console.log(response);
+    if (name.length > 3 || name.length === 0) {
+      fetchSections(name).then(response => {
+        setSections(response.results);
+      });
+    }
+  }, [delayedName]);
 
-      setSections(response.results);
-    });
-  }, ['']);
+  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setName(event.target.value.trim());
+  }
 
   return (
     <div className="header">
-      <Container>
-        <Row>
-          <Col xs="6">
-            <input />
-          </Col>
+      <Row>
+        <Col xs="6">
+          <Input id="input" type="text" onChange={handleInputChange} />
+        </Col>
 
-          <Col xs="6">
-            <SectionsDropdown sections={sections} onSelect={props.onSelect} />
-          </Col>
-        </Row>
-      </Container>
+        <Col xs="6">
+          <SectionsDropdown sections={sections} onSelect={props.onSelect} />
+        </Col>
+      </Row>
     </div>
   );
 };
