@@ -1,7 +1,8 @@
 import { Http } from './axios';
 
-import { ContentParams, ContentResponse } from './../models/content.inteface';
+import { ArticleParams, ArticleResponse } from '../models/article.interface';
 import { SectionsResponse } from '../models/section.interface';
+
 import { fromDate } from '../helpers/fromDate';
 
 export const fetchSections = async (q = '') => {
@@ -12,13 +13,13 @@ export const fetchSections = async (q = '') => {
   return res.data.response;
 };
 
-export const fetchContent = async (opts: ContentParams = { page: 1 }) => {
+export const fetchArticles = async (opts: ArticleParams = { page: 1 }) => {
   const params = {
     ...opts,
     'page-size': 20,
     'from-date': fromDate(),
   };
-  const res = await Http.get<{ response: ContentResponse }>(`/search`, {
+  const res = await Http.get<{ response: ArticleResponse }>(`/search`, {
     params,
   });
 

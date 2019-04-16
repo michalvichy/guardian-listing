@@ -1,15 +1,17 @@
 import React from 'react';
-import { Content } from '../models/content.inteface';
+
 import { ListingItem } from './ListingItem';
 
+import { Article } from '../models/article.interface';
+
 interface Props {
-  articles: Content[];
-  toggleReadLater(i: Content): void;
-  readLater: Content[];
+  articles: Article[];
+  toggleReadLater(i: Article): void;
+  readLater: Article[];
 }
 
 export const Listing = ({ articles, toggleReadLater, readLater }: Props) => {
-  function isMarked(item: Content): boolean {
+  function isMarked(item: Article): boolean {
     return readLater.findIndex(i => i.id === item.id) > -1;
   }
 

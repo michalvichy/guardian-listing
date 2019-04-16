@@ -1,32 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import Spinner from 'reactstrap/lib/Spinner';
 
-import { Content, ContentParams } from '../models/content.inteface';
+import { Article, ArticleParams } from '../models/article.interface';
 import { Header } from './Header';
 import { Listing } from './Listing';
 import { Pagination } from './Pagination';
 
-import { fetchContent } from '../config/service';
+import { fetchArticles } from '../config/service';
 import { readItem, saveItem } from '../helpers/localStorage';
 
 interface State {
-  articles: Content[];
+  articles: Article[];
   pages: number;
 }
 
 export const HomePage = () => {
-  const [readLater, setReadLater] = useState<Content[]>(
+  const [readLater, setReadLater] = useState<Article[]>(
     readItem('readLater') || []
   );
   const [pending, setPending] = useState<boolean>(true);
-  const [query, setQuery] = useState<ContentParams>({ page: 1 });
+  const [query, setQuery] = useState<ArticleParams>({ page: 1 });
   const [state, setState] = useState<State>({
     articles: [],
     pages: 0,
   });
 
   useEffect(() => {
-    fetchContent(query).then(response => {
+    fetchArticles(query).then(response => {
       setState({
         articles: response.results,
         pages: response.pages,
@@ -49,7 +49,7 @@ export const HomePage = () => {
     setPending(true);
   }
 
-  function handleReadLater(article: Content) {
+  function handleReadLater(article: Article) {
     const index = readLater.findIndex(item => item.id === article.id);
 
     if (index === -1) {

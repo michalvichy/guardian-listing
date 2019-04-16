@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { Content } from '../models/content.inteface';
+import { Article } from '../models/article.interface';
 import { formatDate } from '../helpers/fromDate';
 
 interface Props {
-  article: Content;
-  toggleReadLater(i: Content): void;
+  article: Article;
+  toggleReadLater(i: Article): void;
   isMarked: boolean;
 }
 
