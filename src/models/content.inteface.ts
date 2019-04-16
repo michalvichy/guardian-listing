@@ -14,7 +14,7 @@ export interface Content {
 
 export interface ContentParams {
   section?: string;
-  page: string;
+  page: number;
 }
 
 export interface ContentResponse {

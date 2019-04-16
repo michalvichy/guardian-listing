@@ -14,7 +14,7 @@ interface State {
 
 export const HomePage = () => {
   const [pending, setPending] = useState<boolean>(true);
-  const [query, setQuery] = useState<ContentParams>({ page: '1' });
+  const [query, setQuery] = useState<ContentParams>({ page: 1 });
   const [state, setState] = useState<State>({
     articles: [],
     pages: 0,
@@ -32,7 +32,7 @@ export const HomePage = () => {
     });
   }, [query]);
 
-  function handlePageChane(pageNo: string) {
+  function handlePageChane(pageNo: number) {
     setQuery({ page: pageNo });
     setPending(true);
   }
@@ -40,13 +40,16 @@ export const HomePage = () => {
   return (
     <>
       {pending && <Spinner type="grow" color="success" />}
-      {state.articles.length && !pending && (
-        <Listing articles={state.articles} />
-      )}
+
+      {state.articles.length && <Listing articles={state.articles} />}
 
       {!pending && state.articles.length === 0 && <p>No results</p>}
 
-      <Pagination pages={state.pages} onPageChange={handlePageChane} />
+      <Pagination
+        currentPage={+query.page}
+        maxPages={state.pages}
+        onPageChange={handlePageChane}
+      />
     </>
   );
 };

@@ -10,7 +10,7 @@ export const fetchSections = async (q = '') => {
   return res.data;
 };
 
-export const fetchContent = async (opts: ContentParams = { page: '1' }) => {
+export const fetchContent = async (opts: ContentParams = { page: 1 }) => {
   const params = {
     ...opts,
     'page-size': 20,
