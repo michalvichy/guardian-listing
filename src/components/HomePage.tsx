@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Spinner from 'reactstrap/lib/Spinner';
+import { Spinner } from 'reactstrap';
 
 import { Article, ArticleParams } from '../models/article.interface';
 import { Header } from './Header';
